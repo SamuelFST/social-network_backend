@@ -1,15 +1,12 @@
-const http = require('http');
+import express from 'express';
 
-const server = http.createServer((req, res) => {
-    if(req.url === '/'){
-        res.write('Hello world!');
-        res.end();
-    }
-});
+const app = express();
 
-server.on('connection', (stream) => {
-    console.log('Some one connected');
-});
+app.get('/', function (req, res) {
+    console.log(req.headers);
+    res.send('Hello world!');
+})
 
-server.listen(4000);
-console.log('server running on port 4000');
+app.listen(4000, () => {
+    console.log('server running on port 4000');
+})
