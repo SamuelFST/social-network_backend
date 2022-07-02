@@ -1,12 +1,16 @@
 import express from 'express';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
+const port = process.env.API_PORT;
 
-app.get('/', function (req, res) {
-    console.log(req.headers);
-    res.send('Hello world!');
-})
+app.get('/', (req, res) => {
+  console.log(req.headers);
+  res.send('Hello world!');
+});
 
-app.listen(4000, () => {
-    console.log('server running on port 4000');
-})
+app.listen(port, () => {
+  console.log(`server running on port ${port}`);
+});
