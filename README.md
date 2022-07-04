@@ -38,3 +38,7 @@ Or if you are using Yarn:
 ```sh
 yarn dev
 ```
+
+# How to reach me
+
+[![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/samuel-fernando-45b4211b1/)](https://www.linkedin.com/in/samuel-fernando2002/)
