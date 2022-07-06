@@ -1,11 +1,13 @@
 {
   "name": "backend_sysmap",
   "version": "1.0.0",
-  "description": "Backend do projeto - Samuel Fernando da Silva Tavares",
-  "main": "index.js",
+  "description": "",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "commit": "cz"
+    "commit": "cz",
+    "dev": "nodemon server.js",
+    "static": "nodemon express-static.js"
   },
   "repository": {
     "type": "git",
@@ -18,13 +20,16 @@
     "url": "https://github.com/bc-fullstack-01/Samuel-Fernando_backend/issues"
   },
   "homepage": "https://github.com/bc-fullstack-01/Samuel-Fernando_backend#readme",
-  "devDependencies": {
-    "commitizen": "^4.2.4",
-    "cz-conventional-changelog": "3.3.0"
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "nodemon": "^2.0.18",
+    "sucrase": "^3.22.0"
   }
 }
