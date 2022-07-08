@@ -56,7 +56,8 @@ app.use('/v1', routers);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404));
+  const err = createError(404);
+  next(err);
 });
 
 // error handler
@@ -64,7 +65,7 @@ app.use((err, req, res, next) => {
   // mongoose validator
   if (err.name && err.name === 'ValidationError') {
     // retrieve last view
-    const lastView = req.headers.referer.replace(`${req.headers.origin}`, '/');
+    const lastView = req.headers.referer.replace(`${req.headers.origin}/`, '/');
     // save form
     req.session.form = req.body;
     // save errors
