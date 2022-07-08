@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit <%= post.title %></title>
+</head>
+<body>
+  <a href="/v1/posts">back</a>
+  <h1><%= post.title %></h1>
+  <form action="/v1/posts/<%= post._id %>?_method=put" method="POST">
+    <label for="post[title]">Name:
+      <input type="text" name="post[title]" value="<%= post.title %>" >
+    </label>
+    <label for="post[description]">Name:
+      <input type="text" name="post[description]" value="<%= post.description %>" >
+    </label>
+
+    <% errors && errors.forEach(({ message }) => { %>
+      <p><%= message %></p>
+    <% }) %>
+
+    <input type="submit" name="submit" value="update">
+  </form>
+</body>
+</html>
