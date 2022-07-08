@@ -1,0 +1,1 @@
+exports.postController = require('./postController');
