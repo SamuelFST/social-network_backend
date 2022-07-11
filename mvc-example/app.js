@@ -79,7 +79,7 @@ app.use((err, req, res, next) => {
     });
   } else {
     // error page
-    res.status(err.status).render('5xx', { err });
+    res.status(err.status || 500).render('5xx', { err });
   }
 });
 
