@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit comment</title>
+</head>
+<body>
+  <a href="/v1/posts/<%= post.id %>">back</a>
+  <h1>Edit comment</h1>
+  <form action="/v1/posts/<%= post.id %>/comments/<%= comment._id %>?_method=put" method="POST">
+    <label for="comment[description]">Description:
+      <input type="text" name="comment[description]" value="<%= comment.description %>" >
+    </label>
+    <% errors && errors.forEach(({ message }) => { %>
+      <p><%= message %></p>
+    <% }) %>
+
+    <input type="submit" name="submit" value="update">
+  </form>
+</body>
+</html>
