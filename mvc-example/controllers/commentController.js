@@ -72,7 +72,8 @@ module.exports = {
     .then((data) => {
       res.message('Comment saved with success!');
       res.redirect(`/v1/posts/${res.locals.post.id}`);
-    }),
+    })
+    .catch((err) => next(err)),
 
   delete: (req, res, next) => Promise.resolve()
     .then(() => Comment.deleteOne({ _id: req.params.id }))
