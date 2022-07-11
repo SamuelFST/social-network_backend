@@ -7,9 +7,9 @@
   <title><%= post.title %></title>
 </head>
 <body>
-  <h1><% post.title %><a href="/v1/posts/<%= post._id %>/edit">edit</a></h1>
+  <h1><%= post.title %><a href="/v1/posts/<%= post._id %>/edit">edit</a></h1>
+  <p><%= post.description %></p>
   <a href="/v1/posts">back</a>
-  <p><% post.description %></p>
 
   <form action="/v1/posts/<%= post._id %>/comments" method="POST">
     <label for="comment[description]">comment:
