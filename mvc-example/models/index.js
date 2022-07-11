@@ -6,6 +6,7 @@ const connect = mongoose.connect(
 
 exports.Post = require('./post');
 exports.Comment = require('./comment');
+exports.Redact = require('./redact');
 
 mongoose.connection.on('error', () => {
   console.error('Mongo not connected');
