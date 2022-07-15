@@ -5,26 +5,32 @@ const { Schema, model } = require('mongoose');
  * @property {string} _id
  * @property {string} title.required
  * @property {string} description.required
+ * @property {Profile} profile.required
+ * @property {Array.<Comment>} comments
  */
 
 const postSchema = new Schema({
   title: {
     type: String,
-    required: [true, 'O titulo e obrigatorio'],
-    minLength: [2, 'O titulo precisa ter pelo menos 2 caracteres'],
+    required: true,
+    minLength: 2,
   },
   description: {
     type: String,
-    required: [true, 'A descricao e obrigatoria'],
-    minLength: [2, 'a descricao precisa ter pelo menos 2 caracteres'],
+    required: true,
+    minLength: 2,
   },
-  user: {
+  profile: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Profile',
   },
   comments: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment',
+  }],
+  likes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Profile',
   }],
 });
 
