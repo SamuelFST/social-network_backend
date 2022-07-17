@@ -37,6 +37,7 @@ router
  */
   .post((req, res, next) => Promise.resolve()
     .then(() => new Post({ ...req.body, user: req.user._id }).save())
+    .then((args) => req.publish('post', req.user.profile.followers, args))
     .then((data) => res.status(201).json(data))
     .catch((err) => next(err)));
 
@@ -114,8 +115,9 @@ router
   .post((req, res, next) => Promise.resolve()
     .then(() => Post.findOneAndUpdate(
       { _id: req.params.id },
-      { $push: { likes: req.user.profile._id } },
+      { $addToSet: { likes: req.user.profile._id } },
     ))
+    .then((args) => req.publish('post-like', [args.profile], args))
     .then((data) => res.status(203).json(data))
     .catch((err) => next(err)));
 
