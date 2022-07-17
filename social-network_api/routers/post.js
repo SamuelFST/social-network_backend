@@ -98,4 +98,25 @@ router
     .then((data) => res.status(203).json(data))
     .catch((err) => next(err)));
 
+router
+  .param('id', (req, res, next, id) => Promise.resolve()
+    .then(() => Connection.then())
+    .then(() => next())
+    .catch((err) => next(err)))
+  .route('/:id/like')
+/**
+ * Like a post
+ * @route POST /posts/{id}/like
+ * @param {string} id.path.required - post id
+ * @group Post - api
+ * @security JWT
+ */
+  .post((req, res, next) => Promise.resolve()
+    .then(() => Post.findOneAndUpdate(
+      { _id: req.params.id },
+      { $push: { likes: req.user.profile._id } },
+    ))
+    .then((data) => res.status(203).json(data))
+    .catch((err) => next(err)));
+
 module.exports = router;
