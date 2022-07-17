@@ -1,5 +1,17 @@
 const mongoose = require('mongoose');
 
+/**
+ * @typedef Login
+ * @property {string} user.required
+ * @property {string} password.required
+ */
+/**
+ * @typedef Registry
+ * @property {string} name
+ * @property {string} user.required
+ * @property {string} password.required
+ */
+
 const connect = mongoose.connect(
   `${(process.env.MONGODB || 'mongodb://localhost:27017/mydb')}_${process.env.NODE_ENV || 'development'}`,
   {
