@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
@@ -15,6 +16,8 @@ const { User: UserModel } = require('./models');
 const {
   User, Post, Comment, Profile, Feed, Security,
 } = require('./routers');
+
+const pubsub = require('./lib/pubsub');
 
 const options = Object.assign(defaultOptions, { basedir: __dirname });
 
@@ -51,6 +54,8 @@ function authenticate(req, res, next) {
       }).catch((error) => next(error));
   });
 }
+
+app.use(pubsub.pub);
 
 Post.use('/', authenticate, Comment);
 app.use('/v1/posts', authenticate, Post);
