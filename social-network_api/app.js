@@ -12,7 +12,9 @@ const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'someSuperSecretTok
 const defaultOptions = require('./swagger.json');
 
 const { User: UserModel } = require('./models');
-const { User, Post, Comment } = require('./routers');
+const {
+  User, Post, Comment, Profile, Feed, Security,
+} = require('./routers');
 
 const options = Object.assign(defaultOptions, { basedir: __dirname });
 
@@ -42,17 +44,20 @@ function authenticate(req, res, next) {
     if (err) {
       return next(createError(403));
     }
-    UserModel.findOne({ user })
+    UserModel.findOne({ user }).populate('profile')
       .then((_user) => {
         req.user = _user;
         next();
-      });
+      }).catch((error) => next(error));
   });
 }
 
 Post.use('/', authenticate, Comment);
 app.use('/v1/posts', authenticate, Post);
-app.use('/v1/users', User);
+app.use('/v1/users', authenticate, User);
+app.use('/v1/profiles', authenticate, Profile);
+app.use('/v1/feed', authenticate, Feed);
+app.use('/v1/security', Security);
 
 app.use((req, res, next) => {
   const err = createError(404);
