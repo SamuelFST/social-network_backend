@@ -19,13 +19,21 @@ const profileSchema = new Schema({
     required: true,
     ref: 'User',
   },
-  following: {
+  following: [{
     type: Schema.Types.ObjectId,
     ref: 'Profile',
+  }],
+  followers: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Profile',
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
-  followers: {
-    type: Schema.Types.ObjectId,
-    ref: 'Profile',
+  updatedAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
