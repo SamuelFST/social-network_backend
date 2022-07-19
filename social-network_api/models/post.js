@@ -32,6 +32,18 @@ const postSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Profile',
   }],
+  image: {
+    type: Boolean,
+    default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = model('Post', postSchema);

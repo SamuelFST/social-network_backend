@@ -3,6 +3,8 @@ const createError = require('http-errors');
 const express = require('express');
 
 const router = express.Router();
+
+const upload = require('../lib/upload');
 const { Post, Connection } = require('../models');
 
 router
@@ -25,7 +27,7 @@ router
  * @security JWT
  */
   .get((req, res, next) => Promise.resolve()
-    .then(() => Post.find({ user: req.user._id }).populate('comments'))
+    .then(() => Post.find({ user: req.user.profile._id }).populate('comments').populate('profile'))
     .then((data) => res.status(200).json(data))
     .catch((err) => next(err)))
 
@@ -35,11 +37,11 @@ router
  * @group Post - api
  * @security JWT
  */
-  .post((req, res, next) => Promise.resolve()
+  .post(upload.concat([(req, res, next) => Promise.resolve()
     .then(() => new Post({ ...req.body, user: req.user._id }).save())
     .then((args) => req.publish('post', req.user.profile.followers, args))
     .then((data) => res.status(201).json(data))
-    .catch((err) => next(err)));
+    .catch((err) => next(err))]));
 
 router
   .param('id', (req, res, next, id) => Promise.resolve()
@@ -82,9 +84,11 @@ router
  * @security JWT
  */
   .put((req, res, next) => Promise.resolve()
-    .then(() => Post.findByIdAndUpdate(req.params.id, req.body.post, {
-      runValidators: true,
-    }))
+    .then(() => Post.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body, updatedAt: Date.now() },
+      { runValidators: true },
+    ))
     .then((data) => res.status(203).json(data))
     .catch((err) => next(err)))
 
@@ -118,6 +122,29 @@ router
       { $addToSet: { likes: req.user.profile._id } },
     ))
     .then((args) => req.publish('post-like', [args.profile], args))
+    .then((data) => res.status(203).json(data))
+    .catch((err) => next(err)));
+
+router
+  .param('id', (req, res, next, id) => Promise.resolve()
+    .then(() => Connection.then())
+    .then(() => next())
+    .catch((err) => next(err)))
+  .route('/:id/unlike')
+
+/**
+ * Unlike a post
+ * @route POST /posts/{id}/unlike
+ * @param {string} id.path.required - post id
+ * @group Post - api
+ * @security JWT
+ */
+  .post((req, res, next) => Promise.resolve()
+    .then(() => Post.findOneAndUpdate(
+      { _id: req.params.id },
+      { $pull: { likes: req.user.profile._id } },
+    ))
+    .then((args) => req.publish('post-unlike', [args.profile], args))
     .then((data) => res.status(203).json(data))
     .catch((err) => next(err)));
 

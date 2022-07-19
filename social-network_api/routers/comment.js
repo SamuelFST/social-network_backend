@@ -86,7 +86,11 @@ router
  * @security JWT
  */
   .put((req, res, next) => Promise.resolve()
-    .then(() => Comment.findByIdAndUpdate(req.params.id, req.body, { runValidators: true }))
+    .then(() => Comment.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body, updatedAt: Date.now() },
+      { runValidators: true },
+    ))
     .then((data) => res.status(203).json(data))
     .catch((err) => next(err)))
 
@@ -123,6 +127,30 @@ router
       { $addToSet: { likes: req.user.profile._id } },
     ))
     .then((args) => req.publish('comment-like', [args.profile], args))
+    .then((data) => res.status(203).json(data))
+    .catch((err) => next(err)));
+
+router
+  .param('id', (req, res, next, id) => Promise.resolve()
+    .then(() => Connection.then())
+    .then(() => next())
+    .catch((err) => next(err)))
+  .route('/:postId/comments/:id/unlike')
+
+/**
+ * Unlike a comment
+ * @route POST /posts/{postId}/comments/{id}/unlike
+ * @param {string} postId.path.required - post id
+ * @param {string} id.path.required - comment id
+ * @group Comment - api
+ * @security JWT
+ */
+  .post((req, res, next) => Promise.resolve()
+    .then(() => Comment.findOneAndUpdate(
+      { _id: req.params.id },
+      { $pull: { likes: req.user.profile._id } },
+    ))
+    .then((args) => req.publish('comment-unlike', [args.profile], args))
     .then((data) => res.status(203).json(data))
     .catch((err) => next(err)));
 

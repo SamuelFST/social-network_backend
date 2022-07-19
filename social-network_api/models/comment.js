@@ -27,6 +27,14 @@ const commentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Profile',
   }],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = model('Comment', commentSchema);
