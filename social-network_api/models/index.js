@@ -15,7 +15,7 @@ const mongoose = require('mongoose');
 const connect = mongoose.connect(
   `${(process.env.MONGODB || 'mongodb://localhost:27017/mydb')}_${process.env.NODE_ENV || 'development'}`,
   {
-    serverSelectionTimeoutMS: (!process.env.NODE_ENV) ? 1000 : 30000,
+    serverSelectionTimeoutMS: (!process.env.NODE_ENV) ? 5000 : 30000,
   },
 ).catch((err) => console.error(err));
 
