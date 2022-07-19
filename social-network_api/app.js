@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 const path = require('path');
 const express = require('express');
@@ -24,16 +25,21 @@ const options = Object.assign(defaultOptions, { basedir: __dirname });
 const app = express();
 const expressSwagger = esg(app);
 expressSwagger(options);
-
+app.use(express.static('./public'));
 app.use(cors());
-app.use(helmet());
+// app.use(helmet());
 
-app.use(express.urlencoded({
+const urlEncodedMiddleware = bodyParser.urlencoded({
   extended: true,
+});
+
+app.use((req, res, next) => ((/^multipart\//i.test(req.get('Content-Type'))) ? next() : urlEncodedMiddleware(req, res, next)));
+
+app.use(bodyParser.json({
+  defer: true,
 }));
 
-app.use(bodyParser.json());
-app.use(logger(process.env.NODE_ENV || 'dev'));
+app.use(logger('tiny'));
 
 function authenticate(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -44,10 +50,11 @@ function authenticate(req, res, next) {
   }
 
   jwt.verify(token, accessTokenSecret, (err, user) => {
+    const { _id } = user;
     if (err) {
       return next(createError(403));
     }
-    UserModel.findOne({ user }).populate('profile')
+    UserModel.findOne({ _id }).populate('profile')
       .then((_user) => {
         req.user = _user;
         next();
