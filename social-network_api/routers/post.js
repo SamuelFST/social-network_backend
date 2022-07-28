@@ -66,6 +66,7 @@ router
   .get((req, res, next) => Promise.resolve()
     .then(() => Post.findById(req.params.id).populate({
       path: 'comments',
+      populate: { path: 'profile' },
     }).populate({
       path: 'profile',
     }))

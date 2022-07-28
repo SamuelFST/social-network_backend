@@ -46,7 +46,7 @@ router
  */
   .post(async (req, res, next) => Promise.resolve()
     .then(() => new Comment(
-      Object.assign(req.body, { post: res.locals.post.id, user: req.user._id }),
+      Object.assign(req.body, { post: res.locals.post.id, profile: req.user.profile._id }),
     ).save())
     .then((comment) => Post.findById(comment.post)
       .then((post) => Object.assign(post, { comments: [...post.comments, comment._id] }))
