@@ -38,7 +38,7 @@ router
  * @security JWT
  */
   .post(upload.concat([(req, res, next) => Promise.resolve()
-    .then(() => new Post({ ...req.body, user: req.user._id }).save())
+    .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save())
     .then((args) => req.publish('post', req.user.profile.followers, args))
     .then((data) => res.status(201).json(data))
     .catch((err) => next(err))]));
@@ -66,6 +66,8 @@ router
   .get((req, res, next) => Promise.resolve()
     .then(() => Post.findById(req.params.id).populate({
       path: 'comments',
+    }).populate({
+      path: 'profile',
     }))
     .then((data) => {
       if (data) {
