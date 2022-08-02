@@ -26,7 +26,7 @@ liveData.use((socket, next) => {
       if (err) {
         return next(new Error('Authentication error'));
       }
-      UserModel.findOne({ user }).populate('profile')
+      UserModel.findOne({ _id: user._id }).populate('profile')
         .then((u) => {
           if (u) {
             socket.profile = u.profile;
@@ -62,8 +62,8 @@ pubsub.sub().then((sub) => {
         return v.emit(content.type, content.payload);
       });
   });
-}).catch(console.error);
+}).catch((err) => console.error(err));
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`server running on http://localhost:${port}/api-docs`);
 });
