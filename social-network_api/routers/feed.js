@@ -28,6 +28,7 @@ router
       .limit(10)
       .skip((req.query.page || 0) * 10)
       .sort({ createdAt: 'desc' }))
+    .then((data) => data.map((post) => Object.assign(post, { description: post.image ? `${process.env.BUCKET_HOST}${post.description}` : post.description })))
     .then((data) => res.status(200).json(data))
     .catch((err) => next(err)));
 

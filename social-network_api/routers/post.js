@@ -70,6 +70,7 @@ router
     }).populate({
       path: 'profile',
     }))
+    .then((post) => Object.assign(post, { description: post.image ? `${process.env.BUCKET_HOST}${post.description}` : post.description }))
     .then((data) => {
       if (data) {
         res.status(200).json(data);
