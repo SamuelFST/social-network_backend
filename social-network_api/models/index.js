@@ -13,7 +13,7 @@ const mongoose = require('mongoose');
  */
 
 const connect = mongoose.connect(
-  `${(process.env.MONGODB || 'mongodb://localhost:27017/mydb')}_${process.env.NODE_ENV || 'development'}`,
+  `${(process.env.MONGO_URL || 'mongodb://localhost:27017/mydb')}_${process.env.NODE_ENV || 'development'}`,
   {
     serverSelectionTimeoutMS: (!process.env.NODE_ENV) ? 5000 : 30000,
   },
