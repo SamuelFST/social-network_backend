@@ -27,7 +27,6 @@ const s3Client = new S3Client(config);
 
 module.exports = [upload.single('file'), (req, res, next) => {
   if (req.file) {
-    console.log(req.user.profile.id);
     const filename = `${req.user.profile.id}/${req.file.originalname}`;
     return s3Client.send(new PutObjectCommand({
       Bucket: bucketName,
