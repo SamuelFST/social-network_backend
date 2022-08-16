@@ -39,6 +39,9 @@ router
  */
   .post(upload.concat([(req, res, next) => Promise.resolve()
     .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save())
+    .then((post) => Object.assign(post, {
+      description: post.image ? (`${process.env.BUCKET_HOST}${post.description}`) : (post.description),
+    }))
     .then((args) => req.publish('post', req.user.profile.followers, args))
     .then((data) => res.status(201).json(data))
     .catch((err) => next(err))]));
