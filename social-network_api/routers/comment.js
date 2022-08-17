@@ -51,7 +51,7 @@ router
     .then((comment) => Post.findById(comment.post)
       .then((post) => Object.assign(post, { comments: [...post.comments, comment._id] }))
       .then((post) => Post.findByIdAndUpdate(comment.post, post))
-      .then((args) => req.publish('comment', [args.profile], args))
+      .then((args) => req.publish('comment', [args.profile], req.user.profile.name))
       .then(() => comment))
     .then((data) => res.status(201).json(data))
     .catch((err) => next(err)));
@@ -126,7 +126,7 @@ router
       { _id: req.params.id },
       { $addToSet: { likes: req.user.profile._id } },
     ))
-    .then((args) => req.publish('comment-like', [args.profile], args))
+    .then((args) => req.publish('comment-like', [args.profile], req.user.profile.name))
     .then((data) => res.status(203).json(data))
     .catch((err) => next(err)));
 

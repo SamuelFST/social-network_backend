@@ -6,6 +6,7 @@ const router = express.Router();
 
 const upload = require('../lib/upload');
 const { Post, Connection } = require('../models');
+const { populate } = require('../models/post');
 
 router
   .route('/')
@@ -38,7 +39,7 @@ router
  * @security JWT
  */
   .post(upload.concat([(req, res, next) => Promise.resolve()
-    .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save())
+    .then(() => new Post({ ...req.body, profile: req.user.profile._id }).save().then((post) => post.populate('profile')))
     .then((post) => Object.assign(post, {
       description: post.image ? (`${process.env.BUCKET_HOST}${post.description}`) : (post.description),
     }))
@@ -127,8 +128,9 @@ router
     .then(() => Post.findOneAndUpdate(
       { _id: req.params.id },
       { $addToSet: { likes: req.user.profile._id } },
+      { populate: { path: 'profile' } },
     ))
-    .then((args) => req.publish('post-like', [args.profile], args))
+    .then((args) => req.publish('post-like', [args.profile._id], req.user.profile.name))
     .then((data) => res.status(203).json(data))
     .catch((err) => next(err)));
 
