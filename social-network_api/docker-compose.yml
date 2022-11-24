@@ -65,7 +65,7 @@ services:
       AMQP_URL: amqp://guest:guest@rabbitmq:5672
       MONGO_URL: mongodb://mongodb:27017/mydb
       ACCESS_TOKEN_SECRET: asfgvetrhgtrhytrhyth
-      BUCKET_HOST: http://192.168.1.77:9000/
+      BUCKET_HOST: http://localhost:9000/
       BUCKET_ENDPOINT: http://minio:9000/
       BUCKET_ACCESS_KEY: minio
       BUCKET_SECRET_KEY: miniosecret
