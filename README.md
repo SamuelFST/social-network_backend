@@ -11,16 +11,23 @@ Backend do projeto - Samuel Fernando da Silva Tavares
 ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
 ![RabbitMQ](https://img.shields.io/badge/Rabbitmq-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white)
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 # Running this project locally
 
 Clone this repository:
 
 ```sh
-git clone https://github.com/bc-fullstack-01/Samuel-Fernando_backend.git
+git clone https://github.com/SamuelFST/social-network_backend.git
 ```
 
-On the project folder, install the dependencies:
+Navigate to the API directory:
+
+```sh
+cd social-network_backend/social-network_api
+```
+
+On the API directory, install the dependencies:
 
 ```sh
 npm install
@@ -32,7 +39,7 @@ Or if you are using Yarn:
 yarn
 ```
 
-Next, set the environment variables in a .env file on the root of the project. (an example of the .env variables is available [here](.env-example))
+Next, set the environment variables in a .env file on the root of the API folder.
 
 And then you're ready to run this project locally:
 
@@ -42,6 +49,11 @@ npm run dev
 Or if you are using Yarn:
 ```sh
 yarn dev
+```
+
+If you prefer to use a Docker container with the application, a docker-compose is available for this project. To start the container, simply run in the API directory:
+```sh
+docker-compose up
 ```
 
 # How to reach me
